@@ -1,4 +1,3 @@
-// routes/authRoutes.ts
 import { Router } from 'express';
 import pool from '../config/database';
 import bcrypt from 'bcrypt'; // Para hash das senhas
