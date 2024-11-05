@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import pool from '../config/database';
-import bcrypt from 'bcrypt'; // Para senhas
+import bcrypt from 'bcrypt'; 
 import jwt from 'jsonwebtoken'; 
 
 const router = Router();
@@ -15,8 +15,10 @@ router.post('/register', async (req, res) => {
             [name, email, hashedPassword]
         );
         res.status(201).json(result.rows[0]);
+        
     } catch (error) {
         console.error('Erro ao registrar usuário:', error);
+        
         res.status(500).json({ error: 'Erro ao registrar usuário' });
     }
 });
