@@ -10,7 +10,7 @@ export const register = async (req: Request, res: Response) => {
     const user = await authService.registerUser(name, email, password);
     res.status(201).json(user);
   } catch (err: any) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: err.message });   
   }
 };
 
