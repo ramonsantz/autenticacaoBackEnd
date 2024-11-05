@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import pool from '../config/database';
-import bcrypt from 'bcrypt'; // Para hash das senhas
-import jwt from 'jsonwebtoken'; // Para gerar tokens JWT
+import bcrypt from 'bcrypt'; // Para senhas
+import jwt from 'jsonwebtoken'; 
 
 const router = Router();
 
@@ -9,7 +9,6 @@ router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        // Hash da senha antes de armazená-la no banco de dados
         const hashedPassword = await bcrypt.hash(password, 10);
         const result = await pool.query(
             'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
@@ -22,7 +21,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Rota de login
+
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -35,14 +34,13 @@ router.post('/login', async (req, res) => {
         if (result.rows.length > 0) {
             const user = result.rows[0];
 
-            // Verifica se a senha está correta
             const match = await bcrypt.compare(password, user.password);
             if (match) {
-                // Gerar um token JWT
                 const token = jwt.sign({ id: user.id }, 'seu-segredo-aqui', { expiresIn: '1h' });
                 res.json({ message: 'Login bem-sucedido', token });
             } else {
                 res.status(401).json({ error: 'Senha incorreta' });
+                
             }
         } else {
             res.status(404).json({ error: 'Usuário não encontrado' });
